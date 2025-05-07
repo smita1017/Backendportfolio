@@ -6,11 +6,15 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors());
+// ✅ Middleware - Allow requests from your frontend URL
+app.use(cors({
+  origin: "https://your-frontend-site.netlify.app", // ✅ Replace with your actual frontend URL
+  methods: ["GET", "POST"],
+}));
+
 app.use(express.json());
 
-// Nodemailer setup
+// ✅ Nodemailer setup
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -19,12 +23,12 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// Test route
+// ✅ Test route
 app.get("/", (req, res) => {
   res.send("API is running.");
 });
 
-// Contact form POST route
+// ✅ Contact form POST route
 app.post("/contact", async (req, res) => {
   try {
     const { name, email, message } = req.body;
@@ -49,8 +53,7 @@ app.post("/contact", async (req, res) => {
   }
 });
 
-
-
+// ✅ Start server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
